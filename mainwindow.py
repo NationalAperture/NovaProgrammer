@@ -1,9 +1,18 @@
 # This Python file uses the following encoding: utf-8
 import sys
+from pathlib import Path
+
 import serial
 from serial.tools import list_ports
 import json
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
+from PySide6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QTableWidgetItem,
+    QLineEdit,
+    QMessageBox,
+)
+from PySide6.QtGui import QIntValidator
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -44,9 +53,50 @@ def read_json_file():
         data = json.load(f)
         return data
 
+
 def write_json_file(data):
-    with open("values.json", "w") as f:
-        json.dump(data, f)
+    with open("values.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+
+
+def attach_int_validator(
+    line_edit: QLineEdit, min_val: int = -2_147_483_648, max_val: int = 2_147_483_647
+):
+    v = QIntValidator(min_val, max_val, line_edit)
+    line_edit.setValidator(v)
+    # Optional: a little UX polish
+    line_edit.setPlaceholderText("Integer only")
+    line_edit.returnPressed.connect(lambda: validate_and_warn(line_edit))
+    line_edit.editingFinished.connect(lambda: validate_and_warn(line_edit))
+
+
+def validate_and_warn(line_edit: QLineEdit):
+    text = line_edit.text().strip()
+    # QIntValidator treats empty text as Intermediate; warn if you require a value
+    if text == "":
+        warn("Value is required and must be an integer.")
+        line_edit.setFocus()
+        return
+
+    if not line_edit.hasAcceptableInput():
+        warn("Value must be an integer.")
+        line_edit.setFocus()
+        line_edit.selectAll()
+
+
+def validated(le: QLineEdit):
+    val = True
+    if le is None:
+        return True
+    validate_and_warn(le)
+    if not le.hasAcceptableInput() or le.text().strip() == "":
+        val = False
+
+    return val
+
+
+def warn(msg: str):
+    QMessageBox.warning(None, "Invalid Input", msg)
 
 
 class MainWindow(QMainWindow):
@@ -62,9 +112,18 @@ class MainWindow(QMainWindow):
         self.hs_jog = 900
         self.values = {}
 
+        self.load_values()
+        self.set_validator()
+
         self.ui.drive_check_box.clicked.connect(self.toggle_drive)
         self.ui.echo_check_box.clicked.connect(self.toggle_echo)
         self.ui.encoder_check_box.clicked.connect(self.toggle_encoder)
+
+        self.ui.stage_type_box.currentIndexChanged.connect(self.update_stage_type)
+        self.ui.unit_type_box.currentIndexChanged.connect(self.update_unit_type)
+        self.ui.limit_behavior_box.currentIndexChanged.connect(
+            self.update_limit_behavior
+        )
 
         self.ui.node_ids.currentIndexChanged.connect(self.update_node_id)
         self.ui.set_id_btn.clicked.connect(self.set_node_id)
@@ -84,9 +143,81 @@ class MainWindow(QMainWindow):
         self.ui.update_kp_btn.clicked.connect(self.update_kp)
         self.ui.update_ki_btn.clicked.connect(self.update_ki)
         self.ui.update_kd_btn.clicked.connect(self.update_kd)
-        self.ui.update_integrator_limit_btn.clicked.connect(self.update_integrator_limit)
+        self.ui.update_integrator_limit_btn.clicked.connect(
+            self.update_integrator_limit
+        )
+        self.ui.update_lower_limit_btn.clicked.connect(self.update_lower_limit)
+        self.ui.update_upper_limit_btn.clicked.connect(self.update_upper_limit)
+        self.ui.update_ghr_btn.clicked.connect(self.update_ghr)
+        self.ui.update_tpi_btn.clicked.connect(self.update_tpi)
+        self.ui.update_cpr_btn.clicked.connect(self.update_cpr)
 
-        self.load_values()
+    def set_validator(self):
+        attach_int_validator(
+            self.ui.velocity_input,
+            min_val=self.values["velocity"]["min_val"],
+            max_val=self.values["velocity"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.acceleration_input,
+            min_val=self.values["acceleration"]["min_val"],
+            max_val=self.values["acceleration"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.deceleration_input,
+            min_val=self.values["deceleration"]["min_val"],
+            max_val=self.values["deceleration"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.error_limit_input,
+            min_val=self.values["error_limit"]["min_val"],
+            max_val=self.values["error_limit"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.kp_input,
+            min_val=self.values["kp"]["min_val"],
+            max_val=self.values["kp"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.ki_input,
+            min_val=self.values["ki"]["min_val"],
+            max_val=self.values["ki"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.kd_input,
+            min_val=self.values["kd"]["min_val"],
+            max_val=self.values["kd"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.integrator_limit_input,
+            min_val=self.values["integrator_limit"]["min_val"],
+            max_val=self.values["integrator_limit"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.lower_limit_input,
+            min_val=self.values["lower_limit"]["min_val"],
+            max_val=self.values["lower_limit"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.upper_limit_input,
+            min_val=self.values["upper_limit"]["min_val"],
+            max_val=self.values["upper_limit"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.ghr_input,
+            min_val=self.values["ghr"]["min_val"],
+            max_val=self.values["ghr"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.tpi_input,
+            min_val=self.values["tpi"]["min_val"],
+            max_val=self.values["tpi"]["max_val"],
+        )
+        attach_int_validator(
+            self.ui.cpr_input,
+            min_val=self.values["cpr"]["min_val"],
+            max_val=self.values["cpr"]["max_val"],
+        )
 
     def closeEvent(self, event):
         self.save_values()
@@ -94,107 +225,195 @@ class MainWindow(QMainWindow):
 
     def load_values(self):
         self.values = read_json_file()
-        self.ui.acceleration_input.setText(str(self.values["acceleration"]))
-        self.ui.velocity_input.setText(str(self.values["velocity"]))
-        self.ui.deceleration_input.setText(str(self.values["deceleration"]))
-        self.ui.error_limit_input.setText(str(self.values["error_limit"]))
-        self.ui.kp_input.setText(str(self.values["kp"]))
-        self.ui.ki_input.setText(str(self.values["ki"]))
-        self.ui.kd_input.setText(str(self.values["kd"]))
-        self.ui.integrator_limit_input.setText(str(self.values["integrator_limit"]))
+        self.ui.acceleration_input.setText(str(self.values["acceleration"]["value"]))
+        self.ui.velocity_input.setText(str(self.values["velocity"]["value"]))
+        self.ui.deceleration_input.setText(str(self.values["deceleration"]["value"]))
+        self.ui.error_limit_input.setText(str(self.values["error_limit"]["value"]))
+        self.ui.kp_input.setText(str(self.values["kp"]["value"]))
+        self.ui.ki_input.setText(str(self.values["ki"]["value"]))
+        self.ui.kd_input.setText(str(self.values["kd"]["value"]))
+        self.ui.integrator_limit_input.setText(
+            str(self.values["integrator_limit"]["value"])
+        )
+        self.ui.drive_check_box.setChecked(self.values["drive_enable"]["value"])
+        self.ui.echo_check_box.setChecked(self.values["echo_enable"]["value"])
+        self.ui.encoder_check_box.setChecked(self.values["encoder_polarity"]["value"])
+        self.ui.lower_limit_input.setText(str(self.values["lower_limit"]["value"]))
+        self.ui.upper_limit_input.setText(str(self.values["upper_limit"]["value"]))
+        self.ui.ghr_input.setText(str(self.values["ghr"]["value"]))
+        self.ui.tpi_input.setText(str(self.values["tpi"]["value"]))
+        self.ui.cpr_input.setText(str(self.values["cpr"]["value"]))
+        self.ui.stage_type_box.setCurrentIndex(self.values["stage_type"]["value"])
+        self.ui.unit_type_box.setCurrentIndex(self.values["unit_type"]["value"])
+        self.ui.limit_behavior_box.setCurrentIndex(
+            self.values["limit_behavior"]["value"]
+        )
 
     def save_values(self):
         write_json_file(self.values)
 
-
     def update_acceleration(self):
-        accel = int(self.ui.acceleration_input.text())
-        self.values["acceleration"] = accel
-        cmd = (self.node_id, "acc", accel)
-        self.send_command(*cmd)
-
+        self.handle_update(
+            "acc",
+            self.ui.acceleration_input.text(),
+            "acceleration",
+            self.ui.acceleration_input,
+            int,
+        )
 
     def update_velocity(self):
-        vel = int(self.ui.velocity_input.text())
-        self.values["velocity"] = vel
-        cmd = (self.node_id, "vel", vel)
-        self.send_command(*cmd)
+        self.handle_update(
+            "vel",
+            self.ui.velocity_input.text(),
+            "velocity",
+            self.ui.velocity_input,
+            int,
+        )
 
     def update_deceleration(self):
-        decel = int(self.ui.deceleration_input.text())
-        self.values["deceleration"] = decel
-        cmd = (self.node_id, "dec", decel)
-        self.send_command(*cmd)
+        self.handle_update(
+            "dec",
+            self.ui.deceleration_input.text(),
+            "deceleration",
+            self.ui.deceleration_input,
+            int,
+        )
 
     def update_error_limit(self):
-        err = int(self.ui.error_limit_input.text())
-        self.values["error_limit"] = err
-        cmd = (self.node_id, "erl", err)
-        self.send_command(*cmd)
+        self.handle_update(
+            "erl",
+            self.ui.error_limit_input.text(),
+            "error_limit",
+            self.ui.error_limit_input,
+            int,
+        )
 
     def update_kp(self):
-        kp = int(self.ui.kp_input.text())
-        self.values["kp"] = kp
-        cmd = (self.node_id, "skp", kp)
-        self.send_command(*cmd)
+        self.handle_update("skp", self.ui.kp_input.text(), "kp", self.ui.kp_input, int)
 
     def update_ki(self):
-        ki = int(self.ui.ki_input.text())
-        self.values["ki"] = ki
-        cmd = (self.node_id, "ski", ki)
-        self.send_command(*cmd)
+        self.handle_update("ski", self.ui.ki_input.text(), "ki", self.ui.ki_input, int)
 
     def update_kd(self):
-        kd = int(self.ui.kd_input.text())
-        self.values["kd"] = kd
-        cmd = (self.node_id, "skd", kd)
-        self.send_command(*cmd)
+        self.handle_update("skd", self.ui.kd_input.text(), "kd", self.ui.kd_input, int)
 
     def update_integrator_limit(self):
-        integrator = int(self.ui.integrator_limit_input.text())
-        self.values["integrator_limit"] = integrator
-        cmd = (self.node_id, "ilm", integrator)
-        self.send_command(*cmd)
+        self.handle_update(
+            "ilm",
+            self.ui.integrator_limit_input.text(),
+            "integrator_limit",
+            self.ui.integrator_limit_input,
+            int,
+        )
+
+    def update_lower_limit(self):
+        self.handle_update(
+            "sll",
+            self.ui.lower_limit_input.text(),
+            "lower_limit",
+            self.ui.lower_limit_input,
+            int,
+        )
+
+    def update_upper_limit(self):
+        self.handle_update(
+            "slu",
+            self.ui.upper_limit_input.text(),
+            "upper_limit",
+            self.ui.upper_limit_input,
+            int,
+        )
+
+    def update_ghr(self):
+        self.handle_update(
+            "ghr",
+            self.ui.ghr_input.text(),
+            "ghr",
+            self.ui.ghr_input,
+            int,
+        )
+
+    def update_tpi(self):
+        self.handle_update(
+            "tpi",
+            self.ui.tpi_input.text(),
+            "tpi",
+            self.ui.tpi_input,
+            int,
+        )
+
+    def update_cpr(self):
+        self.handle_update(
+            "cpr",
+            self.ui.cpr_input.text(),
+            "cpr",
+            self.ui.cpr_input,
+            int,
+        )
+
+    def update_stage_type(self):
+        self.handle_update(
+            "sst",
+            self.ui.stage_type_box.currentIndex(),
+            "stage_type",
+        )
+
+    def update_unit_type(self):
+        self.handle_update(
+            "sut",
+            self.ui.unit_type_box.currentIndex(),
+            "unit_type",
+        )
+
+    def update_limit_behavior(self):
+        self.handle_update(
+            "slb",
+            self.ui.limit_behavior_box.currentIndex(),
+            "limit_behavior",
+        )
+
+    def toggle_drive(self):
+        self.handle_update(
+            "ena", int(self.ui.drive_check_box.isChecked()), "drive_enable"
+        )
+
+    def toggle_echo(self):
+        self.handle_update(
+            "ech", int(self.ui.echo_check_box.isChecked()), "echo_enable"
+        )
+
+    def toggle_encoder(self):
+        self.handle_update(
+            "pol", int(self.ui.encoder_check_box.isChecked()), "encoder_polarity"
+        )
+        return
+
+    def handle_update(self, cmd, value, key, line_edit=None, cast=None):
+        if line_edit is not None and not validated(line_edit):
+            return
+        if cast is not None:
+            value = cast(value)
+        self.values[key]["value"] = value
+        command = (self.node_id, cmd, value)
+        self.send_command(*command)
 
     def save_configuration(self):
         cmd = (self.node_id, "scf", "1")
         self.send_command(*cmd)
 
-
-    def toggle_drive(self):
-        drive = int(self.ui.drive_check_box.isChecked())
-        cmd = (self.node_id, "ena", drive)
-        self.send_command(*cmd)
-
-
-    def toggle_echo(self):
-        echo = int(self.ui.echo_check_box.isChecked())
-        cmd = (self.node_id, "ech", echo)
-        self.send_command(*cmd)
-
-
-    def toggle_encoder(self):
-        encoder = int(self.ui.encoder_check_box.isChecked())
-        cmd = (self.node_id, "pol", encoder)
-        self.send_command(*cmd)
-
-
     def set_node_id(self):
         cmd = ("*", "adr", self.node_id)
         self.send_command(*cmd)
-
 
     def forward_jog(self):
         jog = self.hs_jog if self.ui.hs_check_box.isChecked() else self.jog
         cmd = (self.node_id, "jog", jog)
         self.send_command(*cmd)
 
-
     def reverse_jog(self):
         jog = self.hs_jog if self.ui.hs_check_box.isChecked() else self.jog
         cmd = (self.node_id, "jog", -jog)
         self.send_command(*cmd)
-
 
     def abort_motion(self):
         cmd = (self.node_id, "jog", 0)
@@ -202,7 +421,6 @@ class MainWindow(QMainWindow):
 
     def update_node_id(self):
         self.node_id = self.ui.node_ids.currentText()
-
 
     def search_ports(self):
         self.ui.port_combo_box.clear()
@@ -241,7 +459,6 @@ class MainWindow(QMainWindow):
         recv_msg = self.serial_port.readline()
         self.record_received_command(recv_msg)
 
-
     def record_sent_command(self, msg):
         self.ui.msg_table.insertRow(0)
         try:
@@ -254,14 +471,15 @@ class MainWindow(QMainWindow):
     def record_received_command(self, msg):
         try:
             msg = msg.decode().strip()
+            self.ui.msg_table.setItem(0, 1, QTableWidgetItem(msg))
         except Exception as e:
             print(f"msg: {msg}\n")
             print(f"err: {e}")
-        self.ui.msg_table.setItem(0, 1, QTableWidgetItem(msg))
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setStyleSheet(Path(f"styles.qss").read_text())
     widget = MainWindow()
     widget.show()
     sys.exit(app.exec())
