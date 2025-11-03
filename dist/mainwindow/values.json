@@ -1,1 +1,0 @@
-{"velocity": 1000, "acceleration": 160, "deceleration": 200, "error_limit": 500, "kp": 200, "ki": 2, "kd": 400, "integrator_limit": 100}
