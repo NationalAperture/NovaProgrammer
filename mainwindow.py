@@ -1,6 +1,7 @@
 # This Python file uses the following encoding: utf-8
 import sys
 from pathlib import Path
+import shutil
 
 import serial
 from serial.tools import list_ports
@@ -19,6 +20,47 @@ from PySide6.QtGui import QIntValidator
 #     pyside6-uic form.ui -o ui_form.py, or
 #     pyside2-uic form.ui -o ui_form.py
 from ui_form import Ui_MainWindow
+
+
+def _asset_root() -> Path:
+    """
+    Return the directory containing bundled assets when running under PyInstaller,
+    or the source directory during development.
+    """
+    return Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
+
+
+def ensure_local_asset(filename: str) -> Path:
+    """
+    Ensure a writable copy of an asset exists next to the executable / cwd.
+    Used for files like values.json that need persistence.
+    """
+    local_path = Path.cwd() / filename
+    if local_path.exists():
+        return local_path
+
+    source_path = _asset_root() / filename
+    if not source_path.exists():
+        raise FileNotFoundError(f"Unable to locate asset: {filename}")
+
+    shutil.copy2(source_path, local_path)
+    return local_path
+
+
+def resolve_asset(filename: str) -> Path:
+    """
+    Locate an asset, preferring a writable copy in the cwd, then falling back to
+    the bundled resource directory.
+    """
+    local_path = Path.cwd() / filename
+    if local_path.exists():
+        return local_path
+
+    bundle_path = _asset_root() / filename
+    if bundle_path.exists():
+        return bundle_path
+
+    raise FileNotFoundError(f"Unable to locate asset: {filename}")
 
 
 def candidate_ports():
@@ -49,13 +91,15 @@ def candidate_ports():
 
 
 def read_json_file():
-    with open("values.json", "r") as f:
+    path = ensure_local_asset("values.json")
+    with path.open("r", encoding="utf-8") as f:
         data = json.load(f)
-        return data
+    return data
 
 
 def write_json_file(data):
-    with open("values.json", "w", encoding="utf-8") as f:
+    path = ensure_local_asset("values.json")
+    with path.open("w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
 
 
@@ -403,7 +447,11 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setStyleSheet(Path(f"styles.qss").read_text())
+    try:
+        stylesheet_path = resolve_asset("styles.qss")
+        app.setStyleSheet(stylesheet_path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        pass
     widget = MainWindow()
     widget.show()
     sys.exit(app.exec())
