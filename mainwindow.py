@@ -241,7 +241,7 @@ class MainWindow(QMainWindow):
     COMBO_FIELDS = (
         {"key": "stage_type", "widget": "stage_type_box", "command": "sst"},
         {"key": "unit_type", "widget": "unit_type_box", "command": "sut"},
-        {"key": "limit_behavior", "widget": "limit_behavior_box", "command": "slb"},
+        {"key": "limit_behavior", "widget": "limit_behavior_box", "command": "slm"},
     )
 
     TOGGLE_FIELDS = (
@@ -406,7 +406,7 @@ class MainWindow(QMainWindow):
             combo = getattr(self.ui, field["widget"])
             combo.currentIndexChanged.connect(
                 lambda _, f=field, widget=combo: self.handle_update(
-                    f["command"], widget.currentIndex(), f["key"]
+                    f["command"], widget.currentIndex() + 1, f["key"]
                 )
             )
 

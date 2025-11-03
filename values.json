@@ -59,13 +59,13 @@
     "max_val": 2147483647
   },
   "stage_type": {
-    "value": 0
+    "value": 1
   },
   "unit_type": {
-    "value": 0
+    "value": 1
   },
   "limit_behavior": {
-    "value": 0
+    "value": 2
   },
   "ghr": {
     "value": 0,

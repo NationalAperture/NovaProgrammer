@@ -426,7 +426,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>520</width>
+            <width>522</width>
             <height>606</height>
            </rect>
           </property>
@@ -752,12 +752,12 @@
              </property>
              <item>
               <property name="text">
-               <string>Off</string>
+               <string>Report</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>Back-Off</string>
+               <string>Offset</string>
               </property>
              </item>
              <item>
@@ -975,17 +975,17 @@
              </item>
              <item>
               <property name="text">
-               <string>Centameters</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
                <string>Inches</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>Microns</string>
+               <string>Radians</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mils</string>
               </property>
              </item>
             </widget>
