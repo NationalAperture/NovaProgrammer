@@ -38,210 +38,31 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.toggle_port_btn, 0, 3, 1, 1)
 
-        self.widget_2 = QWidget(self.centralwidget)
-        self.widget_2.setObjectName(u"widget_2")
-        self.verticalLayout = QVBoxLayout(self.widget_2)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.save_configuration_btn = QPushButton(self.widget_2)
-        self.save_configuration_btn.setObjectName(u"save_configuration_btn")
-        self.save_configuration_btn.setFont(font)
+        self.port_combo_box = QComboBox(self.centralwidget)
+        self.port_combo_box.setObjectName(u"port_combo_box")
+        self.port_combo_box.setFont(font)
 
-        self.verticalLayout.addWidget(self.save_configuration_btn)
+        self.gridLayout.addWidget(self.port_combo_box, 0, 2, 1, 1)
 
-        self.scrollArea = QScrollArea(self.widget_2)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setMinimumSize(QSize(90, 0))
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 534, 398))
-        self.gridLayout_3 = QGridLayout(self.scrollAreaWidgetContents)
-        self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.update_ki_btn = QPushButton(self.scrollAreaWidgetContents)
-        self.update_ki_btn.setObjectName(u"update_ki_btn")
-        self.update_ki_btn.setMinimumSize(QSize(90, 0))
-        self.update_ki_btn.setFont(font)
+        self.search_port_btn = QPushButton(self.centralwidget)
+        self.search_port_btn.setObjectName(u"search_port_btn")
+        self.search_port_btn.setFont(font)
 
-        self.gridLayout_3.addWidget(self.update_ki_btn, 6, 2, 1, 1)
+        self.gridLayout.addWidget(self.search_port_btn, 0, 1, 1, 1)
 
-        self.update_acceleration_btn = QPushButton(self.scrollAreaWidgetContents)
-        self.update_acceleration_btn.setObjectName(u"update_acceleration_btn")
-        self.update_acceleration_btn.setMinimumSize(QSize(90, 0))
-        self.update_acceleration_btn.setFont(font)
+        self.buad_rate_combo_box = QComboBox(self.centralwidget)
+        self.buad_rate_combo_box.addItem("")
+        self.buad_rate_combo_box.addItem("")
+        self.buad_rate_combo_box.addItem("")
+        self.buad_rate_combo_box.addItem("")
+        self.buad_rate_combo_box.addItem("")
+        self.buad_rate_combo_box.addItem("")
+        self.buad_rate_combo_box.setObjectName(u"buad_rate_combo_box")
+        self.buad_rate_combo_box.setFont(font)
+        self.buad_rate_combo_box.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.buad_rate_combo_box.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContentsOnFirstShow)
 
-        self.gridLayout_3.addWidget(self.update_acceleration_btn, 1, 2, 1, 1)
-
-        self.update_kd_btn = QPushButton(self.scrollAreaWidgetContents)
-        self.update_kd_btn.setObjectName(u"update_kd_btn")
-        self.update_kd_btn.setMinimumSize(QSize(90, 0))
-        self.update_kd_btn.setFont(font)
-
-        self.gridLayout_3.addWidget(self.update_kd_btn, 7, 2, 1, 1)
-
-        self.label_7 = QLabel(self.scrollAreaWidgetContents)
-        self.label_7.setObjectName(u"label_7")
-        self.label_7.setFont(font)
-        self.label_7.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_7, 6, 0, 1, 1)
-
-        self.kd_input = QLineEdit(self.scrollAreaWidgetContents)
-        self.kd_input.setObjectName(u"kd_input")
-        self.kd_input.setFont(font)
-
-        self.gridLayout_3.addWidget(self.kd_input, 7, 1, 1, 1)
-
-        self.update_integrator_limit_btn = QPushButton(self.scrollAreaWidgetContents)
-        self.update_integrator_limit_btn.setObjectName(u"update_integrator_limit_btn")
-        self.update_integrator_limit_btn.setMinimumSize(QSize(90, 0))
-        self.update_integrator_limit_btn.setFont(font)
-
-        self.gridLayout_3.addWidget(self.update_integrator_limit_btn, 8, 2, 1, 1)
-
-        self.deceleration_input = QLineEdit(self.scrollAreaWidgetContents)
-        self.deceleration_input.setObjectName(u"deceleration_input")
-        self.deceleration_input.setFont(font)
-
-        self.gridLayout_3.addWidget(self.deceleration_input, 3, 1, 1, 1)
-
-        self.label_8 = QLabel(self.scrollAreaWidgetContents)
-        self.label_8.setObjectName(u"label_8")
-        self.label_8.setFont(font)
-        self.label_8.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_8, 7, 0, 1, 1)
-
-        self.label_6 = QLabel(self.scrollAreaWidgetContents)
-        self.label_6.setObjectName(u"label_6")
-        self.label_6.setFont(font)
-        self.label_6.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_6, 5, 0, 1, 1)
-
-        self.update_velocity_btn = QPushButton(self.scrollAreaWidgetContents)
-        self.update_velocity_btn.setObjectName(u"update_velocity_btn")
-        self.update_velocity_btn.setMinimumSize(QSize(90, 0))
-        self.update_velocity_btn.setFont(font)
-
-        self.gridLayout_3.addWidget(self.update_velocity_btn, 2, 2, 1, 1)
-
-        self.error_limit_input = QLineEdit(self.scrollAreaWidgetContents)
-        self.error_limit_input.setObjectName(u"error_limit_input")
-        self.error_limit_input.setFont(font)
-
-        self.gridLayout_3.addWidget(self.error_limit_input, 4, 1, 1, 1)
-
-        self.label_9 = QLabel(self.scrollAreaWidgetContents)
-        self.label_9.setObjectName(u"label_9")
-        self.label_9.setFont(font)
-        self.label_9.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_9, 8, 0, 1, 1)
-
-        self.label_2 = QLabel(self.scrollAreaWidgetContents)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setFont(font)
-        self.label_2.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_2, 1, 0, 1, 1)
-
-        self.label_4 = QLabel(self.scrollAreaWidgetContents)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setFont(font)
-        self.label_4.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_4, 3, 0, 1, 1)
-
-        self.acceleration_input = QLineEdit(self.scrollAreaWidgetContents)
-        self.acceleration_input.setObjectName(u"acceleration_input")
-        self.acceleration_input.setFont(font)
-
-        self.gridLayout_3.addWidget(self.acceleration_input, 1, 1, 1, 1)
-
-        self.kp_input = QLineEdit(self.scrollAreaWidgetContents)
-        self.kp_input.setObjectName(u"kp_input")
-        self.kp_input.setFont(font)
-
-        self.gridLayout_3.addWidget(self.kp_input, 5, 1, 1, 1)
-
-        self.update_deceleration_btn = QPushButton(self.scrollAreaWidgetContents)
-        self.update_deceleration_btn.setObjectName(u"update_deceleration_btn")
-        self.update_deceleration_btn.setMinimumSize(QSize(90, 0))
-        self.update_deceleration_btn.setFont(font)
-
-        self.gridLayout_3.addWidget(self.update_deceleration_btn, 3, 2, 1, 1)
-
-        self.integrator_limit_input = QLineEdit(self.scrollAreaWidgetContents)
-        self.integrator_limit_input.setObjectName(u"integrator_limit_input")
-        self.integrator_limit_input.setFont(font)
-
-        self.gridLayout_3.addWidget(self.integrator_limit_input, 8, 1, 1, 1)
-
-        self.update_error_limit_btn = QPushButton(self.scrollAreaWidgetContents)
-        self.update_error_limit_btn.setObjectName(u"update_error_limit_btn")
-        self.update_error_limit_btn.setMinimumSize(QSize(90, 0))
-        self.update_error_limit_btn.setFont(font)
-
-        self.gridLayout_3.addWidget(self.update_error_limit_btn, 4, 2, 1, 1)
-
-        self.velocity_input = QLineEdit(self.scrollAreaWidgetContents)
-        self.velocity_input.setObjectName(u"velocity_input")
-        self.velocity_input.setFont(font)
-
-        self.gridLayout_3.addWidget(self.velocity_input, 2, 1, 1, 1)
-
-        self.update_kp_btn = QPushButton(self.scrollAreaWidgetContents)
-        self.update_kp_btn.setObjectName(u"update_kp_btn")
-        self.update_kp_btn.setMinimumSize(QSize(90, 0))
-        self.update_kp_btn.setFont(font)
-
-        self.gridLayout_3.addWidget(self.update_kp_btn, 5, 2, 1, 1)
-
-        self.ki_input = QLineEdit(self.scrollAreaWidgetContents)
-        self.ki_input.setObjectName(u"ki_input")
-        self.ki_input.setFont(font)
-
-        self.gridLayout_3.addWidget(self.ki_input, 6, 1, 1, 1)
-
-        self.label_3 = QLabel(self.scrollAreaWidgetContents)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setFont(font)
-        self.label_3.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_3, 2, 0, 1, 1)
-
-        self.label_5 = QLabel(self.scrollAreaWidgetContents)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setFont(font)
-        self.label_5.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_5, 4, 0, 1, 1)
-
-        self.drive_check_box = QCheckBox(self.scrollAreaWidgetContents)
-        self.drive_check_box.setObjectName(u"drive_check_box")
-        self.drive_check_box.setFont(font)
-        self.drive_check_box.setChecked(True)
-
-        self.gridLayout_3.addWidget(self.drive_check_box, 0, 0, 1, 1)
-
-        self.echo_check_box = QCheckBox(self.scrollAreaWidgetContents)
-        self.echo_check_box.setObjectName(u"echo_check_box")
-        self.echo_check_box.setFont(font)
-
-        self.gridLayout_3.addWidget(self.echo_check_box, 0, 1, 1, 1)
-
-        self.encoder_check_box = QCheckBox(self.scrollAreaWidgetContents)
-        self.encoder_check_box.setObjectName(u"encoder_check_box")
-        self.encoder_check_box.setFont(font)
-
-        self.gridLayout_3.addWidget(self.encoder_check_box, 0, 2, 1, 1)
-
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-
-        self.verticalLayout.addWidget(self.scrollArea)
-
-
-        self.gridLayout.addWidget(self.widget_2, 1, 2, 1, 2)
+        self.gridLayout.addWidget(self.buad_rate_combo_box, 0, 0, 1, 1)
 
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
@@ -353,31 +174,335 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.widget, 1, 0, 1, 2)
 
-        self.port_combo_box = QComboBox(self.centralwidget)
-        self.port_combo_box.setObjectName(u"port_combo_box")
-        self.port_combo_box.setFont(font)
+        self.widget_2 = QWidget(self.centralwidget)
+        self.widget_2.setObjectName(u"widget_2")
+        self.verticalLayout = QVBoxLayout(self.widget_2)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.save_configuration_btn = QPushButton(self.widget_2)
+        self.save_configuration_btn.setObjectName(u"save_configuration_btn")
+        self.save_configuration_btn.setFont(font)
 
-        self.gridLayout.addWidget(self.port_combo_box, 0, 2, 1, 1)
+        self.verticalLayout.addWidget(self.save_configuration_btn)
 
-        self.search_port_btn = QPushButton(self.centralwidget)
-        self.search_port_btn.setObjectName(u"search_port_btn")
-        self.search_port_btn.setFont(font)
+        self.scrollArea = QScrollArea(self.widget_2)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setMinimumSize(QSize(90, 0))
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 606))
+        self.gridLayout_3 = QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.label_2 = QLabel(self.scrollAreaWidgetContents)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setFont(font)
+        self.label_2.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
 
-        self.gridLayout.addWidget(self.search_port_btn, 0, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.label_2, 2, 0, 1, 1)
 
-        self.buad_rate_combo_box = QComboBox(self.centralwidget)
-        self.buad_rate_combo_box.addItem("")
-        self.buad_rate_combo_box.addItem("")
-        self.buad_rate_combo_box.addItem("")
-        self.buad_rate_combo_box.addItem("")
-        self.buad_rate_combo_box.addItem("")
-        self.buad_rate_combo_box.addItem("")
-        self.buad_rate_combo_box.setObjectName(u"buad_rate_combo_box")
-        self.buad_rate_combo_box.setFont(font)
-        self.buad_rate_combo_box.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
-        self.buad_rate_combo_box.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContentsOnFirstShow)
+        self.update_tpi_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_tpi_btn.setObjectName(u"update_tpi_btn")
+        self.update_tpi_btn.setFont(font)
 
-        self.gridLayout.addWidget(self.buad_rate_combo_box, 0, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.update_tpi_btn, 13, 2, 1, 1)
+
+        self.acceleration_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.acceleration_input.setObjectName(u"acceleration_input")
+        self.acceleration_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.acceleration_input, 2, 1, 1, 1)
+
+        self.update_ki_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_ki_btn.setObjectName(u"update_ki_btn")
+        self.update_ki_btn.setMinimumSize(QSize(90, 35))
+        self.update_ki_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_ki_btn, 7, 2, 1, 1)
+
+        self.integrator_limit_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.integrator_limit_input.setObjectName(u"integrator_limit_input")
+        self.integrator_limit_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.integrator_limit_input, 9, 1, 1, 1)
+
+        self.label_11 = QLabel(self.scrollAreaWidgetContents)
+        self.label_11.setObjectName(u"label_11")
+        self.label_11.setFont(font)
+        self.label_11.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_11, 11, 0, 1, 1)
+
+        self.upper_limit_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.upper_limit_input.setObjectName(u"upper_limit_input")
+        self.upper_limit_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.upper_limit_input, 11, 1, 1, 1)
+
+        self.label_3 = QLabel(self.scrollAreaWidgetContents)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setFont(font)
+        self.label_3.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_3, 3, 0, 1, 1)
+
+        self.ki_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.ki_input.setObjectName(u"ki_input")
+        self.ki_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.ki_input, 7, 1, 1, 1)
+
+        self.kp_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.kp_input.setObjectName(u"kp_input")
+        self.kp_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.kp_input, 6, 1, 1, 1)
+
+        self.label_4 = QLabel(self.scrollAreaWidgetContents)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setFont(font)
+        self.label_4.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_4, 4, 0, 1, 1)
+
+        self.update_acceleration_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_acceleration_btn.setObjectName(u"update_acceleration_btn")
+        self.update_acceleration_btn.setMinimumSize(QSize(90, 35))
+        self.update_acceleration_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_acceleration_btn, 2, 2, 1, 1)
+
+        self.label_6 = QLabel(self.scrollAreaWidgetContents)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setFont(font)
+        self.label_6.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_6, 6, 0, 1, 1)
+
+        self.update_kd_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_kd_btn.setObjectName(u"update_kd_btn")
+        self.update_kd_btn.setMinimumSize(QSize(90, 35))
+        self.update_kd_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_kd_btn, 8, 2, 1, 1)
+
+        self.stage_type_box = QComboBox(self.scrollAreaWidgetContents)
+        self.stage_type_box.addItem("")
+        self.stage_type_box.addItem("")
+        self.stage_type_box.addItem("")
+        self.stage_type_box.setObjectName(u"stage_type_box")
+        self.stage_type_box.setFont(font)
+
+        self.gridLayout_3.addWidget(self.stage_type_box, 1, 0, 1, 1)
+
+        self.drive_check_box = QCheckBox(self.scrollAreaWidgetContents)
+        self.drive_check_box.setObjectName(u"drive_check_box")
+        self.drive_check_box.setFont(font)
+        self.drive_check_box.setChecked(False)
+
+        self.gridLayout_3.addWidget(self.drive_check_box, 0, 0, 1, 1)
+
+        self.update_velocity_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_velocity_btn.setObjectName(u"update_velocity_btn")
+        self.update_velocity_btn.setMinimumSize(QSize(90, 35))
+        self.update_velocity_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_velocity_btn, 3, 2, 1, 1)
+
+        self.update_error_limit_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_error_limit_btn.setObjectName(u"update_error_limit_btn")
+        self.update_error_limit_btn.setMinimumSize(QSize(90, 35))
+        self.update_error_limit_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_error_limit_btn, 5, 2, 1, 1)
+
+        self.kd_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.kd_input.setObjectName(u"kd_input")
+        self.kd_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.kd_input, 8, 1, 1, 1)
+
+        self.label_9 = QLabel(self.scrollAreaWidgetContents)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setFont(font)
+        self.label_9.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_9, 9, 0, 1, 1)
+
+        self.label_5 = QLabel(self.scrollAreaWidgetContents)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setFont(font)
+        self.label_5.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_5, 5, 0, 1, 1)
+
+        self.update_ghr_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_ghr_btn.setObjectName(u"update_ghr_btn")
+        self.update_ghr_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_ghr_btn, 12, 2, 1, 1)
+
+        self.limit_behavior_box = QComboBox(self.scrollAreaWidgetContents)
+        self.limit_behavior_box.addItem("")
+        self.limit_behavior_box.addItem("")
+        self.limit_behavior_box.addItem("")
+        self.limit_behavior_box.setObjectName(u"limit_behavior_box")
+        self.limit_behavior_box.setFont(font)
+
+        self.gridLayout_3.addWidget(self.limit_behavior_box, 1, 2, 1, 1)
+
+        self.label_7 = QLabel(self.scrollAreaWidgetContents)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setFont(font)
+        self.label_7.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_7, 7, 0, 1, 1)
+
+        self.encoder_check_box = QCheckBox(self.scrollAreaWidgetContents)
+        self.encoder_check_box.setObjectName(u"encoder_check_box")
+        self.encoder_check_box.setFont(font)
+
+        self.gridLayout_3.addWidget(self.encoder_check_box, 0, 2, 1, 1)
+
+        self.update_deceleration_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_deceleration_btn.setObjectName(u"update_deceleration_btn")
+        self.update_deceleration_btn.setMinimumSize(QSize(90, 35))
+        self.update_deceleration_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_deceleration_btn, 4, 2, 1, 1)
+
+        self.velocity_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.velocity_input.setObjectName(u"velocity_input")
+        self.velocity_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.velocity_input, 3, 1, 1, 1)
+
+        self.error_limit_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.error_limit_input.setObjectName(u"error_limit_input")
+        self.error_limit_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.error_limit_input, 5, 1, 1, 1)
+
+        self.update_kp_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_kp_btn.setObjectName(u"update_kp_btn")
+        self.update_kp_btn.setMinimumSize(QSize(90, 35))
+        self.update_kp_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_kp_btn, 6, 2, 1, 1)
+
+        self.label_8 = QLabel(self.scrollAreaWidgetContents)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setFont(font)
+        self.label_8.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_8, 8, 0, 1, 1)
+
+        self.label_10 = QLabel(self.scrollAreaWidgetContents)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setFont(font)
+        self.label_10.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_10, 10, 0, 1, 1)
+
+        self.echo_check_box = QCheckBox(self.scrollAreaWidgetContents)
+        self.echo_check_box.setObjectName(u"echo_check_box")
+        self.echo_check_box.setFont(font)
+
+        self.gridLayout_3.addWidget(self.echo_check_box, 0, 1, 1, 1)
+
+        self.lower_limit_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.lower_limit_input.setObjectName(u"lower_limit_input")
+        self.lower_limit_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.lower_limit_input, 10, 1, 1, 1)
+
+        self.deceleration_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.deceleration_input.setObjectName(u"deceleration_input")
+        self.deceleration_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.deceleration_input, 4, 1, 1, 1)
+
+        self.update_upper_limit_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_upper_limit_btn.setObjectName(u"update_upper_limit_btn")
+        self.update_upper_limit_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_upper_limit_btn, 11, 2, 1, 1)
+
+        self.update_integrator_limit_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_integrator_limit_btn.setObjectName(u"update_integrator_limit_btn")
+        self.update_integrator_limit_btn.setMinimumSize(QSize(90, 35))
+        self.update_integrator_limit_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_integrator_limit_btn, 9, 2, 1, 1)
+
+        self.update_lower_limit_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_lower_limit_btn.setObjectName(u"update_lower_limit_btn")
+        self.update_lower_limit_btn.setMinimumSize(QSize(0, 35))
+        self.update_lower_limit_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_lower_limit_btn, 10, 2, 1, 1)
+
+        self.unit_type_box = QComboBox(self.scrollAreaWidgetContents)
+        self.unit_type_box.addItem("")
+        self.unit_type_box.addItem("")
+        self.unit_type_box.addItem("")
+        self.unit_type_box.addItem("")
+        self.unit_type_box.addItem("")
+        self.unit_type_box.setObjectName(u"unit_type_box")
+        self.unit_type_box.setFont(font)
+
+        self.gridLayout_3.addWidget(self.unit_type_box, 1, 1, 1, 1)
+
+        self.update_cpr_btn = QPushButton(self.scrollAreaWidgetContents)
+        self.update_cpr_btn.setObjectName(u"update_cpr_btn")
+        self.update_cpr_btn.setFont(font)
+
+        self.gridLayout_3.addWidget(self.update_cpr_btn, 14, 2, 1, 1)
+
+        self.ghr_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.ghr_input.setObjectName(u"ghr_input")
+        self.ghr_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.ghr_input, 12, 1, 1, 1)
+
+        self.tpi_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.tpi_input.setObjectName(u"tpi_input")
+        self.tpi_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.tpi_input, 13, 1, 1, 1)
+
+        self.cpr_input = QLineEdit(self.scrollAreaWidgetContents)
+        self.cpr_input.setObjectName(u"cpr_input")
+        self.cpr_input.setFont(font)
+
+        self.gridLayout_3.addWidget(self.cpr_input, 14, 1, 1, 1)
+
+        self.label_12 = QLabel(self.scrollAreaWidgetContents)
+        self.label_12.setObjectName(u"label_12")
+        self.label_12.setFont(font)
+        self.label_12.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_12, 12, 0, 1, 1)
+
+        self.label_13 = QLabel(self.scrollAreaWidgetContents)
+        self.label_13.setObjectName(u"label_13")
+        self.label_13.setFont(font)
+        self.label_13.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_13, 13, 0, 1, 1)
+
+        self.label_14 = QLabel(self.scrollAreaWidgetContents)
+        self.label_14.setObjectName(u"label_14")
+        self.label_14.setFont(font)
+        self.label_14.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_14, 14, 0, 1, 1)
+
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+
+        self.verticalLayout.addWidget(self.scrollArea)
+
+
+        self.gridLayout.addWidget(self.widget_2, 1, 2, 1, 2)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -396,26 +521,14 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.toggle_port_btn.setText(QCoreApplication.translate("MainWindow", u"Connect to Port", None))
-        self.save_configuration_btn.setText(QCoreApplication.translate("MainWindow", u"Save Configuration", None))
-        self.update_ki_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
-        self.update_acceleration_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
-        self.update_kd_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"KI:", None))
-        self.update_integrator_limit_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
-        self.label_8.setText(QCoreApplication.translate("MainWindow", u"KD:", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"KP:", None))
-        self.update_velocity_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
-        self.label_9.setText(QCoreApplication.translate("MainWindow", u"Integrator Limit:", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Acceleration:", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Deceleration:", None))
-        self.update_deceleration_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
-        self.update_error_limit_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
-        self.update_kp_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Velocity:", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Error Limit:", None))
-        self.drive_check_box.setText(QCoreApplication.translate("MainWindow", u"Drive Enabled", None))
-        self.echo_check_box.setText(QCoreApplication.translate("MainWindow", u"Echo Enabled", None))
-        self.encoder_check_box.setText(QCoreApplication.translate("MainWindow", u"Encoder Polarity", None))
+        self.search_port_btn.setText(QCoreApplication.translate("MainWindow", u"Search Ports", None))
+        self.buad_rate_combo_box.setItemText(0, QCoreApplication.translate("MainWindow", u"9600", None))
+        self.buad_rate_combo_box.setItemText(1, QCoreApplication.translate("MainWindow", u"14400", None))
+        self.buad_rate_combo_box.setItemText(2, QCoreApplication.translate("MainWindow", u"19200", None))
+        self.buad_rate_combo_box.setItemText(3, QCoreApplication.translate("MainWindow", u"38400", None))
+        self.buad_rate_combo_box.setItemText(4, QCoreApplication.translate("MainWindow", u"57600", None))
+        self.buad_rate_combo_box.setItemText(5, QCoreApplication.translate("MainWindow", u"115200", None))
+
         self.reverse_jog_btn.setText(QCoreApplication.translate("MainWindow", u"Reverse Jog", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Node ID:", None))
         self.stop_btn.setText(QCoreApplication.translate("MainWindow", u"STOP", None))
@@ -459,13 +572,49 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Message Sent", None));
         ___qtablewidgetitem1 = self.msg_table.horizontalHeaderItem(1)
         ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Message Received", None));
-        self.search_port_btn.setText(QCoreApplication.translate("MainWindow", u"Search Ports", None))
-        self.buad_rate_combo_box.setItemText(0, QCoreApplication.translate("MainWindow", u"9600", None))
-        self.buad_rate_combo_box.setItemText(1, QCoreApplication.translate("MainWindow", u"14400", None))
-        self.buad_rate_combo_box.setItemText(2, QCoreApplication.translate("MainWindow", u"19200", None))
-        self.buad_rate_combo_box.setItemText(3, QCoreApplication.translate("MainWindow", u"38400", None))
-        self.buad_rate_combo_box.setItemText(4, QCoreApplication.translate("MainWindow", u"57600", None))
-        self.buad_rate_combo_box.setItemText(5, QCoreApplication.translate("MainWindow", u"115200", None))
+        self.save_configuration_btn.setText(QCoreApplication.translate("MainWindow", u"Save Configuration", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Acceleration:", None))
+        self.update_tpi_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.update_ki_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.label_11.setText(QCoreApplication.translate("MainWindow", u"Upper Limit:", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Velocity:", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Deceleration:", None))
+        self.update_acceleration_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"KP:", None))
+        self.update_kd_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.stage_type_box.setItemText(0, QCoreApplication.translate("MainWindow", u"Linear", None))
+        self.stage_type_box.setItemText(1, QCoreApplication.translate("MainWindow", u"Rotory", None))
+        self.stage_type_box.setItemText(2, QCoreApplication.translate("MainWindow", u"Goniometer", None))
 
+        self.drive_check_box.setText(QCoreApplication.translate("MainWindow", u"Drive Enabled", None))
+        self.update_velocity_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.update_error_limit_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"Integrator Limit:", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Error Limit:", None))
+        self.update_ghr_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.limit_behavior_box.setItemText(0, QCoreApplication.translate("MainWindow", u"Off", None))
+        self.limit_behavior_box.setItemText(1, QCoreApplication.translate("MainWindow", u"Back-Off", None))
+        self.limit_behavior_box.setItemText(2, QCoreApplication.translate("MainWindow", u"Stop", None))
+
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"KI:", None))
+        self.encoder_check_box.setText(QCoreApplication.translate("MainWindow", u"Encoder Polarity", None))
+        self.update_deceleration_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.update_kp_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"KD:", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Lower Limit:", None))
+        self.echo_check_box.setText(QCoreApplication.translate("MainWindow", u"Echo Enabled", None))
+        self.update_upper_limit_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.update_integrator_limit_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.update_lower_limit_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.unit_type_box.setItemText(0, QCoreApplication.translate("MainWindow", u"Encoder Counts", None))
+        self.unit_type_box.setItemText(1, QCoreApplication.translate("MainWindow", u"Milimeters", None))
+        self.unit_type_box.setItemText(2, QCoreApplication.translate("MainWindow", u"Centameters", None))
+        self.unit_type_box.setItemText(3, QCoreApplication.translate("MainWindow", u"Inches", None))
+        self.unit_type_box.setItemText(4, QCoreApplication.translate("MainWindow", u"Microns", None))
+
+        self.update_cpr_btn.setText(QCoreApplication.translate("MainWindow", u"Update", None))
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"GHR:", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"TPI:", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"CPR:", None))
     # retranslateUi
 

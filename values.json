@@ -1,1 +1,85 @@
-{"velocity": 1000, "acceleration": 160, "deceleration": 200, "error_limit": 500, "kp": 200, "ki": 2, "kd": 400, "integrator_limit": 100}
+{
+  "velocity": {
+    "value": 5000,
+    "min_val": 0,
+    "max_val": 2147483647
+  },
+  "acceleration": {
+    "value": 4,
+    "min_val": 0,
+    "max_val": 2147483647
+  },
+  "deceleration": {
+    "value": 200,
+    "min_val": 0,
+    "max_val": 2147483647
+  },
+  "error_limit": {
+    "value": 500,
+    "min_val": 0,
+    "max_val": 65535
+  },
+  "kp": {
+    "value": 200,
+    "min_val": 0,
+    "max_val": 2147483647
+  },
+  "ki": {
+    "value": 2,
+    "min_val": 0,
+    "max_val": 2147483647
+  },
+  "kd": {
+    "value": 400,
+    "min_val": 0,
+    "max_val": 2147483647
+  },
+  "integrator_limit": {
+    "value": 100,
+    "min_val": 0,
+    "max_val": 65535
+  },
+  "drive_enable": {
+    "value": 1
+  },
+  "echo_enable": {
+    "value": 0
+  },
+  "encoder_polarity": {
+    "value": 0
+  },
+  "lower_limit": {
+    "value": -2147483648,
+    "min_val": -2147483648,
+    "max_val": 2147483647
+  },
+  "upper_limit": {
+    "value": 2147483647,
+    "min_val": -2147483648,
+    "max_val": 2147483647
+  },
+  "stage_type": {
+    "value": 0
+  },
+  "unit_type": {
+    "value": 0
+  },
+  "limit_behavior": {
+    "value": 0
+  },
+  "ghr": {
+    "value": 0,
+    "min_val": 0,
+    "max_val": 65535
+  },
+  "tpi": {
+    "value": 0,
+    "min_val": 0,
+    "max_val": 255
+  },
+  "cpr": {
+    "value": 0,
+    "min_val": 0,
+    "max_val": 65535
+  }
+}
