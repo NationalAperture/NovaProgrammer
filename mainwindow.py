@@ -374,19 +374,24 @@ class MainWindow(QMainWindow):
 
     def toggle_drive(self):
         self.handle_update(
-            "ena", int(self.ui.drive_check_box.isChecked()), "drive_enable"
+            "ena",
+            int(self.ui.drive_check_box.isChecked()),
+            "drive_enabled",
         )
 
     def toggle_echo(self):
         self.handle_update(
-            "ech", int(self.ui.echo_check_box.isChecked()), "echo_enable"
+            "ech",
+            int(self.ui.echo_check_box.isChecked()),
+            "echo_enabled",
         )
 
     def toggle_encoder(self):
         self.handle_update(
-            "pol", int(self.ui.encoder_check_box.isChecked()), "encoder_polarity"
+            "pol",
+            int(self.ui.encoder_check_box.isChecked()),
+            "encoder_polarity",
         )
-        return
 
     def handle_update(self, cmd, value, key, line_edit=None, cast=None):
         if line_edit is not None and not validated(line_edit):
