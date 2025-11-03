@@ -100,6 +100,112 @@ def warn(msg: str):
 
 
 class MainWindow(QMainWindow):
+    LINE_EDIT_FIELDS = (
+        {
+            "key": "velocity",
+            "widget": "velocity_input",
+            "button": "update_velocity_btn",
+            "command": "vel",
+            "cast": int,
+        },
+        {
+            "key": "acceleration",
+            "widget": "acceleration_input",
+            "button": "update_acceleration_btn",
+            "command": "acc",
+            "cast": int,
+        },
+        {
+            "key": "deceleration",
+            "widget": "deceleration_input",
+            "button": "update_deceleration_btn",
+            "command": "dec",
+            "cast": int,
+        },
+        {
+            "key": "error_limit",
+            "widget": "error_limit_input",
+            "button": "update_error_limit_btn",
+            "command": "erl",
+            "cast": int,
+        },
+        {
+            "key": "kp",
+            "widget": "kp_input",
+            "button": "update_kp_btn",
+            "command": "skp",
+            "cast": int,
+        },
+        {
+            "key": "ki",
+            "widget": "ki_input",
+            "button": "update_ki_btn",
+            "command": "ski",
+            "cast": int,
+        },
+        {
+            "key": "kd",
+            "widget": "kd_input",
+            "button": "update_kd_btn",
+            "command": "skd",
+            "cast": int,
+        },
+        {
+            "key": "integrator_limit",
+            "widget": "integrator_limit_input",
+            "button": "update_integrator_limit_btn",
+            "command": "ilm",
+            "cast": int,
+        },
+        {
+            "key": "lower_limit",
+            "widget": "lower_limit_input",
+            "button": "update_lower_limit_btn",
+            "command": "sll",
+            "cast": int,
+        },
+        {
+            "key": "upper_limit",
+            "widget": "upper_limit_input",
+            "button": "update_upper_limit_btn",
+            "command": "slu",
+            "cast": int,
+        },
+        {
+            "key": "ghr",
+            "widget": "ghr_input",
+            "button": "update_ghr_btn",
+            "command": "ghr",
+            "cast": int,
+        },
+        {
+            "key": "tpi",
+            "widget": "tpi_input",
+            "button": "update_tpi_btn",
+            "command": "tpi",
+            "cast": int,
+        },
+        {
+            "key": "cpr",
+            "widget": "cpr_input",
+            "button": "update_cpr_btn",
+            "command": "cpr",
+            "cast": int,
+        },
+    )
+
+    COMBO_FIELDS = (
+        {"key": "stage_type", "widget": "stage_type_box", "command": "sst"},
+        {"key": "unit_type", "widget": "unit_type_box", "command": "sut"},
+        {"key": "limit_behavior", "widget": "limit_behavior_box", "command": "slb"},
+    )
+
+    TOGGLE_FIELDS = (
+        {"key": "drive_enable", "widget": "drive_check_box", "command": "ena"},
+        {"key": "echo_enable", "widget": "echo_check_box", "command": "ech"},
+        {"key": "encoder_polarity", "widget": "encoder_check_box", "command": "pol"},
+    )
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
@@ -114,110 +220,20 @@ class MainWindow(QMainWindow):
 
         self.load_values()
         self.set_validator()
-
-        self.ui.drive_check_box.clicked.connect(self.toggle_drive)
-        self.ui.echo_check_box.clicked.connect(self.toggle_echo)
-        self.ui.encoder_check_box.clicked.connect(self.toggle_encoder)
-
-        self.ui.stage_type_box.currentIndexChanged.connect(self.update_stage_type)
-        self.ui.unit_type_box.currentIndexChanged.connect(self.update_unit_type)
-        self.ui.limit_behavior_box.currentIndexChanged.connect(
-            self.update_limit_behavior
-        )
-
-        self.ui.node_ids.currentIndexChanged.connect(self.update_node_id)
-        self.ui.set_id_btn.clicked.connect(self.set_node_id)
-        self.ui.search_port_btn.pressed.connect(self.search_ports)
-        self.ui.toggle_port_btn.pressed.connect(self.toggle_port_connection)
-        self.ui.forward_job_btn.pressed.connect(self.forward_jog)
-        self.ui.reverse_jog_btn.pressed.connect(self.reverse_jog)
-        self.ui.forward_job_btn.released.connect(self.abort_motion)
-        self.ui.reverse_jog_btn.released.connect(self.abort_motion)
-        self.ui.stop_btn.pressed.connect(self.abort_motion)
-
-        self.ui.save_configuration_btn.clicked.connect(self.save_configuration)
-        self.ui.update_acceleration_btn.clicked.connect(self.update_acceleration)
-        self.ui.update_velocity_btn.clicked.connect(self.update_velocity)
-        self.ui.update_deceleration_btn.clicked.connect(self.update_deceleration)
-        self.ui.update_error_limit_btn.clicked.connect(self.update_error_limit)
-        self.ui.update_kp_btn.clicked.connect(self.update_kp)
-        self.ui.update_ki_btn.clicked.connect(self.update_ki)
-        self.ui.update_kd_btn.clicked.connect(self.update_kd)
-        self.ui.update_integrator_limit_btn.clicked.connect(
-            self.update_integrator_limit
-        )
-        self.ui.update_lower_limit_btn.clicked.connect(self.update_lower_limit)
-        self.ui.update_upper_limit_btn.clicked.connect(self.update_upper_limit)
-        self.ui.update_ghr_btn.clicked.connect(self.update_ghr)
-        self.ui.update_tpi_btn.clicked.connect(self.update_tpi)
-        self.ui.update_cpr_btn.clicked.connect(self.update_cpr)
+        self._bind_line_edit_updates()
+        self._bind_combo_updates()
+        self._bind_toggle_updates()
+        self._bind_additional_signals()
 
     def set_validator(self):
-        attach_int_validator(
-            self.ui.velocity_input,
-            min_val=self.values["velocity"]["min_val"],
-            max_val=self.values["velocity"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.acceleration_input,
-            min_val=self.values["acceleration"]["min_val"],
-            max_val=self.values["acceleration"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.deceleration_input,
-            min_val=self.values["deceleration"]["min_val"],
-            max_val=self.values["deceleration"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.error_limit_input,
-            min_val=self.values["error_limit"]["min_val"],
-            max_val=self.values["error_limit"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.kp_input,
-            min_val=self.values["kp"]["min_val"],
-            max_val=self.values["kp"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.ki_input,
-            min_val=self.values["ki"]["min_val"],
-            max_val=self.values["ki"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.kd_input,
-            min_val=self.values["kd"]["min_val"],
-            max_val=self.values["kd"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.integrator_limit_input,
-            min_val=self.values["integrator_limit"]["min_val"],
-            max_val=self.values["integrator_limit"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.lower_limit_input,
-            min_val=self.values["lower_limit"]["min_val"],
-            max_val=self.values["lower_limit"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.upper_limit_input,
-            min_val=self.values["upper_limit"]["min_val"],
-            max_val=self.values["upper_limit"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.ghr_input,
-            min_val=self.values["ghr"]["min_val"],
-            max_val=self.values["ghr"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.tpi_input,
-            min_val=self.values["tpi"]["min_val"],
-            max_val=self.values["tpi"]["max_val"],
-        )
-        attach_int_validator(
-            self.ui.cpr_input,
-            min_val=self.values["cpr"]["min_val"],
-            max_val=self.values["cpr"]["max_val"],
-        )
+        for field in self.LINE_EDIT_FIELDS:
+            widget = getattr(self.ui, field["widget"])
+            field_values = self.values.get(field["key"], {})
+            min_val = field_values.get("min_val")
+            max_val = field_values.get("max_val")
+            if min_val is None or max_val is None:
+                continue
+            attach_int_validator(widget, min_val=min_val, max_val=max_val)
 
     def closeEvent(self, event):
         self.save_values()
@@ -225,173 +241,20 @@ class MainWindow(QMainWindow):
 
     def load_values(self):
         self.values = read_json_file()
-        self.ui.acceleration_input.setText(str(self.values["acceleration"]["value"]))
-        self.ui.velocity_input.setText(str(self.values["velocity"]["value"]))
-        self.ui.deceleration_input.setText(str(self.values["deceleration"]["value"]))
-        self.ui.error_limit_input.setText(str(self.values["error_limit"]["value"]))
-        self.ui.kp_input.setText(str(self.values["kp"]["value"]))
-        self.ui.ki_input.setText(str(self.values["ki"]["value"]))
-        self.ui.kd_input.setText(str(self.values["kd"]["value"]))
-        self.ui.integrator_limit_input.setText(
-            str(self.values["integrator_limit"]["value"])
-        )
-        self.ui.drive_check_box.setChecked(self.values["drive_enable"]["value"])
-        self.ui.echo_check_box.setChecked(self.values["echo_enable"]["value"])
-        self.ui.encoder_check_box.setChecked(self.values["encoder_polarity"]["value"])
-        self.ui.lower_limit_input.setText(str(self.values["lower_limit"]["value"]))
-        self.ui.upper_limit_input.setText(str(self.values["upper_limit"]["value"]))
-        self.ui.ghr_input.setText(str(self.values["ghr"]["value"]))
-        self.ui.tpi_input.setText(str(self.values["tpi"]["value"]))
-        self.ui.cpr_input.setText(str(self.values["cpr"]["value"]))
-        self.ui.stage_type_box.setCurrentIndex(self.values["stage_type"]["value"])
-        self.ui.unit_type_box.setCurrentIndex(self.values["unit_type"]["value"])
-        self.ui.limit_behavior_box.setCurrentIndex(
-            self.values["limit_behavior"]["value"]
-        )
+        for field in self.LINE_EDIT_FIELDS:
+            widget = getattr(self.ui, field["widget"])
+            widget.setText(str(self.values[field["key"]]["value"]))
+
+        for field in self.COMBO_FIELDS:
+            widget = getattr(self.ui, field["widget"])
+            widget.setCurrentIndex(self.values[field["key"]]["value"])
+
+        for field in self.TOGGLE_FIELDS:
+            widget = getattr(self.ui, field["widget"])
+            widget.setChecked(bool(self.values[field["key"]]["value"]))
 
     def save_values(self):
         write_json_file(self.values)
-
-    def update_acceleration(self):
-        self.handle_update(
-            "acc",
-            self.ui.acceleration_input.text(),
-            "acceleration",
-            self.ui.acceleration_input,
-            int,
-        )
-
-    def update_velocity(self):
-        self.handle_update(
-            "vel",
-            self.ui.velocity_input.text(),
-            "velocity",
-            self.ui.velocity_input,
-            int,
-        )
-
-    def update_deceleration(self):
-        self.handle_update(
-            "dec",
-            self.ui.deceleration_input.text(),
-            "deceleration",
-            self.ui.deceleration_input,
-            int,
-        )
-
-    def update_error_limit(self):
-        self.handle_update(
-            "erl",
-            self.ui.error_limit_input.text(),
-            "error_limit",
-            self.ui.error_limit_input,
-            int,
-        )
-
-    def update_kp(self):
-        self.handle_update("skp", self.ui.kp_input.text(), "kp", self.ui.kp_input, int)
-
-    def update_ki(self):
-        self.handle_update("ski", self.ui.ki_input.text(), "ki", self.ui.ki_input, int)
-
-    def update_kd(self):
-        self.handle_update("skd", self.ui.kd_input.text(), "kd", self.ui.kd_input, int)
-
-    def update_integrator_limit(self):
-        self.handle_update(
-            "ilm",
-            self.ui.integrator_limit_input.text(),
-            "integrator_limit",
-            self.ui.integrator_limit_input,
-            int,
-        )
-
-    def update_lower_limit(self):
-        self.handle_update(
-            "sll",
-            self.ui.lower_limit_input.text(),
-            "lower_limit",
-            self.ui.lower_limit_input,
-            int,
-        )
-
-    def update_upper_limit(self):
-        self.handle_update(
-            "slu",
-            self.ui.upper_limit_input.text(),
-            "upper_limit",
-            self.ui.upper_limit_input,
-            int,
-        )
-
-    def update_ghr(self):
-        self.handle_update(
-            "ghr",
-            self.ui.ghr_input.text(),
-            "ghr",
-            self.ui.ghr_input,
-            int,
-        )
-
-    def update_tpi(self):
-        self.handle_update(
-            "tpi",
-            self.ui.tpi_input.text(),
-            "tpi",
-            self.ui.tpi_input,
-            int,
-        )
-
-    def update_cpr(self):
-        self.handle_update(
-            "cpr",
-            self.ui.cpr_input.text(),
-            "cpr",
-            self.ui.cpr_input,
-            int,
-        )
-
-    def update_stage_type(self):
-        self.handle_update(
-            "sst",
-            self.ui.stage_type_box.currentIndex(),
-            "stage_type",
-        )
-
-    def update_unit_type(self):
-        self.handle_update(
-            "sut",
-            self.ui.unit_type_box.currentIndex(),
-            "unit_type",
-        )
-
-    def update_limit_behavior(self):
-        self.handle_update(
-            "slb",
-            self.ui.limit_behavior_box.currentIndex(),
-            "limit_behavior",
-        )
-
-    def toggle_drive(self):
-        self.handle_update(
-            "ena",
-            int(self.ui.drive_check_box.isChecked()),
-            "drive_enabled",
-        )
-
-    def toggle_echo(self):
-        self.handle_update(
-            "ech",
-            int(self.ui.echo_check_box.isChecked()),
-            "echo_enabled",
-        )
-
-    def toggle_encoder(self):
-        self.handle_update(
-            "pol",
-            int(self.ui.encoder_check_box.isChecked()),
-            "encoder_polarity",
-        )
 
     def handle_update(self, cmd, value, key, line_edit=None, cast=None):
         if line_edit is not None and not validated(line_edit):
@@ -434,7 +297,7 @@ class MainWindow(QMainWindow):
             self.ui.port_combo_box.addItem(port)
 
     def toggle_port_connection(self):
-        if self.serial_port.isOpen():
+        if self._serial_is_open():
             self.disconnect_from_port()
         else:
             self.connect_to_port()
@@ -458,6 +321,9 @@ class MainWindow(QMainWindow):
         self.ui.toggle_port_btn.setText("Disconnect from Port")
 
     def send_command(self, node_id, cmd, param):
+        if not self._serial_is_open():
+            warn("Serial port is not connected.")
+            return
         msg = f"{node_id} {cmd} {param}\r\n"
         self.record_sent_command(msg)
         self.serial_port.write(msg.encode())
@@ -480,6 +346,59 @@ class MainWindow(QMainWindow):
         except Exception as e:
             print(f"msg: {msg}\n")
             print(f"err: {e}")
+
+    def _bind_line_edit_updates(self):
+        for field in self.LINE_EDIT_FIELDS:
+            button = getattr(self.ui, field["button"])
+            line_edit = getattr(self.ui, field["widget"])
+            button.clicked.connect(
+                lambda _, f=field, le=line_edit: self.handle_update(
+                    f["command"], le.text(), f["key"], le, f.get("cast")
+                )
+            )
+
+    def _bind_combo_updates(self):
+        for field in self.COMBO_FIELDS:
+            combo = getattr(self.ui, field["widget"])
+            combo.currentIndexChanged.connect(
+                lambda _, f=field, widget=combo: self.handle_update(
+                    f["command"], widget.currentIndex(), f["key"]
+                )
+            )
+
+    def _bind_toggle_updates(self):
+        for field in self.TOGGLE_FIELDS:
+            checkbox = getattr(self.ui, field["widget"])
+            checkbox.clicked.connect(
+                lambda _, f=field, widget=checkbox: self.handle_update(
+                    f["command"], int(widget.isChecked()), f["key"]
+                )
+            )
+
+    def _bind_additional_signals(self):
+        simple_connections = [
+            (self.ui.set_id_btn.clicked, self.set_node_id),
+            (self.ui.search_port_btn.pressed, self.search_ports),
+            (self.ui.toggle_port_btn.pressed, self.toggle_port_connection),
+            (self.ui.forward_job_btn.pressed, self.forward_jog),
+            (self.ui.reverse_jog_btn.pressed, self.reverse_jog),
+            (self.ui.forward_job_btn.released, self.abort_motion),
+            (self.ui.reverse_jog_btn.released, self.abort_motion),
+            (self.ui.stop_btn.pressed, self.abort_motion),
+            (self.ui.save_configuration_btn.clicked, self.save_configuration),
+        ]
+
+        for signal, handler in simple_connections:
+            signal.connect(handler)
+
+        self.ui.node_ids.currentIndexChanged.connect(lambda *_: self.update_node_id())
+
+    def _serial_is_open(self):
+        if hasattr(self.serial_port, "is_open"):
+            return self.serial_port.is_open
+        if hasattr(self.serial_port, "isOpen"):
+            return self.serial_port.isOpen()
+        return False
 
 
 if __name__ == "__main__":
